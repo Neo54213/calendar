@@ -1,0 +1,42 @@
+*{
+    margin:0;
+    padding:0;
+}
+body{
+    width:30em;
+    margin: 0 auto;
+    background-image: url("../imgs/htc_one_70.png");
+}
+table{
+    width:30em;
+    border-collapse: collapse;
+    border: 1px solid black;
+}
+th{
+    background-color: darkgray;
+    height: 1.3em;
+    border-right: 1px dashed black;
+}
+td{
+    border-bottom: 1px dashed black;
+    border-right: 1px dashed black;
+    font: 1.25em Verdana;
+    width: 2.25em;
+    text-align: right;
+    height: 2.25em;
+    padding-right: 0.4em;
+}
+table td:hover{
+    background-color: aqua;
+    cursor: pointer;
+}
+h1#header{
+    text-align: center;
+    font: 3em Tahoma;
+    margin-top: 0.3em;
+    margin-bottom: 0.6em;
+}
+textarea#infoAboutPerson{
+    width: 35.88em;
+    height: 13em;
+}

@@ -10,7 +10,7 @@ var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 var oMonthDate = new Date();
 
 // Month name array initializing
-var sMonthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
+var aMonthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
 				  "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
 				 ];
 
@@ -21,6 +21,7 @@ var oPeople = [
 		firstName: "Борис",
 		fathersName: "Васильевич",
 		birthday: 3,
+		birthmonth: 8,
 		age: 111,
 		city: "Симский завод"
 	},
@@ -29,6 +30,7 @@ var oPeople = [
 		firstName: "Альфред",
 		fathersName: "",
 		birthday: 13,
+		birthmonth: 8,
 		age: 117,
 		city: "Лондон"
 	},
@@ -37,6 +39,7 @@ var oPeople = [
 		firstName: "Иван ",
 		fathersName: "Михайлович",
 		birthday: 13,
+		birthmonth: 8,
 		age: 187,
 		city: "Лондон"
 	}
@@ -103,14 +106,14 @@ function clickDay(){
 	var oPersonInfo = document.getElementById("infoAboutPerson");
 	oPersonInfo.innerHTML = "";
 	
-	// Searching of oPeople and put info into textarea
+	// Searching of oPeople and putting info into textarea
 	for(var k in oPeople){
-		if(oPeople[k].birthday == this.innerText){
+		if(oPeople[k].birthday == this.innerText && oPeople[k].birthmonth == oMonthDate.getMonth()+1){
 			oPersonInfo.innerHTML += "Именинник: " + 
 			oPeople[k].lastName + " " + oPeople[k].firstName + " " + oPeople[k].fathersName + "\n"
 			+ "Дата рождения: " + ((oPeople[k].birthday < 10)? ("0" + oPeople[k].birthday): (oPeople[k].birthday)) + "." + 
-			((oMonthDate.getMonth() + 1 < 10)? "0" + (oMonthDate.getMonth() + 1): 
-			(oMonthDate.getMonth() + 1)) + "\n" + 
+			((oPeople[k].birthmonth < 10)? "0" + oPeople[k].birthmonth:
+			oPeople[k].birthmonth) + "\n" +
 			"Возраст: " + oPeople[k].age + '\n'+
 			"Город: " + oPeople[k].city + "\n\n";
 		}
@@ -130,5 +133,5 @@ for(var i = 0; i < document.getElementsByTagName("td").length; i++){
 	}
 }
 
-document.getElementById("header").innerText += sMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
+document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
 };
