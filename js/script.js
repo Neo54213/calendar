@@ -6,6 +6,10 @@ var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 // Data object initializing
 var dateOfCurrentMonth = new Date();
 
+// Month name array initializing
+var sMonthName = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль",
+				  "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+
 // People object initializing
 var people = [
 	{
@@ -116,22 +120,6 @@ for(var i = 0; i < document.getElementsByTagName("td").length; i++){
 	document.getElementsByTagName("td")[i].onclick = tdClick;
 }
 
-
-var sMonthName = "";
-switch(dateOfCurrentMonth.getMonth()){
-	case 0: sMonthName = "январь"; break;
-	case 1: sMonthName = "февраль"; break;
-	case 2: sMonthName = "март"; break;
-	case 3: sMonthName = "апрель"; break;
-	case 4: sMonthName = "май"; break;
-	case 5: sMonthName = "июнь"; break;
-	case 6: sMonthName = "июль"; break;
-	case 7: sMonthName = "август"; break;
-	case 8: sMonthName = "сентябрь"; break;
-	case 9: sMonthName = "октябрь"; break;
-	case 10: sMonthName = "ноябрь"; break;
-	case 11: sMonthName = "декабрь"; break;
-}
-document.getElementsByTagName("h1")[0].innerText += sMonthName + ' ' + dateOfCurrentMonth.getFullYear();
-document.getElementsByTagName("title")[0].innerText += sMonthName + ' ' + dateOfCurrentMonth.getFullYear();
+document.getElementsByTagName("h1")[0].innerText += sMonthName[dateOfCurrentMonth.getMonth()] + ' ' + dateOfCurrentMonth.getFullYear();
+document.getElementsByTagName("title")[0].innerText += sMonthName[dateOfCurrentMonth.getMonth()] + ' ' + dateOfCurrentMonth.getFullYear();
 };
