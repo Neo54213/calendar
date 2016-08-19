@@ -1,5 +1,8 @@
 window.onload = function(){
 
+//------------------------------- INITIALIZING SECTION -------------------------
+
+
 // Days in russian initializing
 var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
@@ -8,7 +11,8 @@ var oMonthDate = new Date();
 
 // Month name array initializing
 var sMonthName = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль",
-				  "август", "сентябрь", "октябрь", "ноябрь", "декабрь"];
+				  "август", "сентябрь", "октябрь", "ноябрь", "декабрь"
+				 ];
 
 // People object initializing
 var oPeople = [
@@ -38,6 +42,8 @@ var oPeople = [
 	}
 ];
 
+//-------------------------- FUNCTION SECTION ----------------------------------
+
 // Th drawing function
 function drawTh(aData){
 	var oTable = document.getElementById("calendar");
@@ -63,7 +69,8 @@ function drawCalendar(){
 	document.getElementById("calendar").innerHTML += "\t\t<tr>\n\t\t";
 	var nWeek = 1;
 	var date = new Date();
-	var nLastMonthDay = 32 - new Date(date.getYear(), date.getMonth(), 32).getDate();
+	var nLastMonthDay = 32 - new Date(date.getYear(), date.getMonth(), 32)
+																     .getDate();
 	for(var j = 1; j <= nLastMonthDay; ){
 		for(var i = 1; i <= 7; i++){
 			if(((nFirstDay == i) || (i == 7 && nFirstDay == 0)) 
@@ -112,7 +119,7 @@ function tdClick(){
 	}
 }
 
-//----- MAIN PART
+//---------------------------------- MAIN PART ---------------------------------
 
 drawCalendar();
 
@@ -121,5 +128,4 @@ for(var i = 0; i < document.getElementsByTagName("td").length; i++){
 }
 
 document.getElementById("header").innerText += sMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
-document.getElementById("title").innerText += sMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
 };
