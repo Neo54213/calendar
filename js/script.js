@@ -10,8 +10,8 @@ var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 var oMonthDate = new Date();
 
 // Month name array initializing
-var sMonthName = ["январь", "февраль", "март", "апрель", "май", "июнь", "июль",
-				  "август", "сентябрь", "октябрь", "ноябрь", "декабрь"
+var sMonthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
+				  "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
 				 ];
 
 // People object initializing
@@ -57,7 +57,7 @@ function drawTh(aData){
     oTable.appendChild(oTableTr);
 }
 
-// Calendar draw function
+// Calendar drawing function
 function drawCalendar(){
 	drawTh(aWeekDays);
 
@@ -74,8 +74,7 @@ function drawCalendar(){
 	for(var j = 1; j <= nLastMonthDay; ){
 		for(var i = 1; i <= 7; i++){
 			if(((nFirstDay == i) || (i == 7 && nFirstDay == 0)) 
-			  && nWeek==1
-			  && nFirstDay !=1){
+			  && nWeek==1 && nFirstDay !=1){
 				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td colspan=\"" + (i - 1) + "\"></td>\n";
 				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + j + "</td>";
 				j++;
@@ -90,6 +89,7 @@ function drawCalendar(){
 					nWeek++;
 				}
 				if(j > nLastMonthDay){
+					document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td colspan=\"" + (7 - i) + "\"></td>\n";
 					break;
 				}
 			}
@@ -115,7 +115,7 @@ function clickDay(){
 			"Город: " + oPeople[k].city + "\n\n";
 		}
 	}
-	if(oPersonInfo.innerHTML ==""){
+	if(oPersonInfo.innerHTML == ""){
 		oPersonInfo.innerHTML = "Именинников нет.";
 	}
 }
@@ -125,7 +125,9 @@ function clickDay(){
 drawCalendar();
 
 for(var i = 0; i < document.getElementsByTagName("td").length; i++){
-	document.getElementsByTagName("td")[i].onclick = clickDay;
+	if(!document.getElementsByTagName("td")[i].hasAttribute("colspan")){
+		document.getElementsByTagName("td")[i].onclick = clickDay;
+	}
 }
 
 document.getElementById("header").innerText += sMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
