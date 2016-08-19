@@ -98,14 +98,15 @@ function drawCalendar(){
 }
 
 // TD click function
-function tdClick(){
+function clickDay(){
 	// Clearing previous data in texarea
-	document.getElementById("infoAboutPerson").innerHTML = "";
+	var oPersonInfo = document.getElementById("infoAboutPerson");
+	oPersonInfo.innerHTML = "";
 	
 	// Searching of oPeople and put info into textarea
 	for(var k in oPeople){
 		if(oPeople[k].birthday == this.innerText){
-			document.getElementById("infoAboutPerson").innerHTML += "Именинник: " + 
+			oPersonInfo.innerHTML += "Именинник: " + 
 			oPeople[k].lastName + " " + oPeople[k].firstName + " " + oPeople[k].fathersName + "\n"
 			+ "Дата рождения: " + ((oPeople[k].birthday < 10)? ("0" + oPeople[k].birthday): (oPeople[k].birthday)) + "." + 
 			((oMonthDate.getMonth() + 1 < 10)? "0" + (oMonthDate.getMonth() + 1): 
@@ -114,8 +115,8 @@ function tdClick(){
 			"Город: " + oPeople[k].city + "\n\n";
 		}
 	}
-	if(document.getElementById("infoAboutPerson").innerHTML ==""){
-		document.getElementById("infoAboutPerson").innerHTML = "Именинников нет.";
+	if(oPersonInfo.innerHTML ==""){
+		oPersonInfo.innerHTML = "Именинников нет.";
 	}
 }
 
@@ -124,7 +125,7 @@ function tdClick(){
 drawCalendar();
 
 for(var i = 0; i < document.getElementsByTagName("td").length; i++){
-	document.getElementsByTagName("td")[i].onclick = tdClick;
+	document.getElementsByTagName("td")[i].onclick = clickDay;
 }
 
 document.getElementById("header").innerText += sMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
