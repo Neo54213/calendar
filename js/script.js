@@ -71,32 +71,23 @@ function drawCalendar(){
 
 	document.getElementById("calendar").innerHTML += "\t\t<tr>\n\t\t";
 	var nWeek = 1;
-	var date = new Date();
-	var nLastMonthDay = 32 - new Date(date.getYear(), date.getMonth(), 32)
+	var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32)
 																     .getDate();
+	var flag = false;
 	for(var j = 1; j <= nLastMonthDay; ){
 		for(var i = 1; i <= 7; i++){
-			if(((nFirstDay == i) || (i == 7 && nFirstDay == 0)) 
-			  && nWeek==1 && nFirstDay !=1){
-				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td colspan=\"" + (i - 1) + "\"></td>\n";
-				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + j + "</td>";
-				j++;
-			}else{
-				if(i < nFirstDay && nWeek == 1){
-					continue;
-				}
-				if(j > nLastMonthDay){
-					var flag = true;
-				}
-				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + (flag ? "": j) + "</td>";
-				if(j <= nLastMonthDay){
-					j++;
-				}
-				if( i == 7 && j < nLastMonthDay ){
-					document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
-					nWeek++;
-				}
+			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1)){
+				flag = true;
 			}
+			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + (flag ? "": j) + "</td>";
+			if( i == 7 && j < nLastMonthDay ){
+				document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
+				nWeek++;
+			}
+			if(j <= nLastMonthDay && !flag){
+				j++;
+			}
+			flag = false;
 		}
 	}
 }
