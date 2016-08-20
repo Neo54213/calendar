@@ -85,15 +85,16 @@ function drawCalendar(){
 				if(i < nFirstDay && nWeek == 1){
 					continue;
 				}
-				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + j + "</td>";
-				j++;
-				if(i == 7){
+				if(j > nLastMonthDay){
+					var flag = true;
+				}
+				document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + (flag ? "": j) + "</td>";
+				if(j <= nLastMonthDay){
+					j++;
+				}
+				if( i == 7 && j < nLastMonthDay ){
 					document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
 					nWeek++;
-				}
-				if(j > nLastMonthDay){
-					document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td colspan=\"" + (7 - i) + "\"></td>\n";
-					break;
 				}
 			}
 		}
@@ -128,7 +129,7 @@ function clickDay(){
 drawCalendar();
 
 for(var i = 0; i < document.getElementsByTagName("td").length; i++){
-	if(!document.getElementsByTagName("td")[i].hasAttribute("colspan")){
+	if(document.getElementsByTagName("td")[i].textContent !== ""){
 		document.getElementsByTagName("td")[i].onclick = clickDay;
 	}
 }

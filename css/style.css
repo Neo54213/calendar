@@ -39,4 +39,5 @@ h1#header{
 textarea#infoAboutPerson{
     width: 35.88em;
     height: 13em;
+    margin-top: 3em;
 }
