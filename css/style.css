@@ -11,6 +11,7 @@ table{
     width:30em;
     border-collapse: collapse;
     border: 1px solid black;
+    background-color: white;
 }
 th{
     background-color: darkgray;
@@ -40,4 +41,7 @@ textarea#infoAboutPerson{
     width: 35.88em;
     height: 13em;
     margin-top: 3em;
+}
+.non-month{
+    background-color: grey;
 }

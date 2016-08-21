@@ -7,7 +7,7 @@ window.onload = function(){
 var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 // Data object initializing
-var oMonthDate = new Date(2016, 4);
+var oMonthDate = new Date();
 
 // Month name array initializing
 var aMonthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
@@ -86,7 +86,7 @@ function drawCalendar(){
 			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 && nFirstDay == 0) && nWeek == 1)){
 				flag = true;
 			}
-			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + (flag ? "": j) + "</td>";
+			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td" + (flag ? (" class='non-month'>") : (">" + j)) + "</td>";
 			if(j <= nLastMonthDay && !flag){
 				j++;
 			}
@@ -132,5 +132,6 @@ for(var i = 0; i < document.getElementsByTagName("td").length; i++){
 	}
 }
 
-document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
+document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()]
+	+ ' ' + oMonthDate.getFullYear();
 };
