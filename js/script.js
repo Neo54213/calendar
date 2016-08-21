@@ -36,7 +36,7 @@ var oPeople = [
 	},
 	{
 		lastName: "Сеченов",
-		firstName: "Иван ",
+		firstName: "Иван",
 		fathersName: "Михайлович",
 		birthday: 13,
 		birthmonth: 8,
@@ -45,7 +45,11 @@ var oPeople = [
 	}
 ];
 
+// Table object initializing
+var oTable = document.getElementById("calendar");
+
 //-------------------------- FUNCTION SECTION ----------------------------------
+
 
 // Th drawing function
 function drawTh(aData){
@@ -74,43 +78,51 @@ function drawCalendar(){
 	// Getting number of first day of month
 	var nFirstDay = getNumberOfFirstWeekDay(oMonthDate);
 
-	document.getElementById("calendar").innerHTML += "\t\t<tr>\n\t\t";
+	//oTable.innerHTML += "\t\t<tr>\n\t\t";
 	var nWeek = 1;
 
 	// Getting number of last month day
 	var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32)
 	.getDate();
+
+	// Set flag to separate non-month days from month days
 	var flag = false;
+
 	for(var j = 1; j <= nLastMonthDay; ){
+		var oTableTr = document.createElement("tr");
 		for(var i = 1; i <= 7; i++){
 			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 &&
 				nFirstDay == 0) && nWeek == 1)){
 				flag = true;
 			}
-			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td" + (flag ? (" class='non-month'>") : (">" + j)) + "</td>";
-			if(j <= nLastMonthDay && !flag){
+			var oTableTd = document.createElement("td");
+			if(flag){
+				oTableTd.className = "non-month";
+			}else{
+				oTableTd.textContent = j;
+			}
+			if(!flag){
 				j++;
 			}
-			if( i == 7 && j <= nLastMonthDay ){
-				document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
-				nWeek++;
-			}
+			oTableTr.appendChild(oTableTd);
 			flag = false;
 		}
+		oTable.appendChild(oTableTr);
+		nWeek++;
 	}
 }
 
 // TD click function
-function clickDay(){
-	// Clearing previous data in texarea
+function clickDay(target){
+	// Clearing previous data in textarea
 	var oPersonInfo = document.getElementById("infoAboutPerson");
-	oPersonInfo.innerHTML = "";
+	oPersonInfo.textContent = "";
 
 	// Searching of oPeople and putting info into textarea
 	for(var k in oPeople){
-		if(oPeople[k].birthday == this.innerText && oPeople[k].birthmonth == oMonthDate.getMonth()+1){
+		if(oPeople[k].birthday == target.innerText && oPeople[k].birthmonth == oMonthDate.getMonth()+1){
 			oPersonInfo.innerHTML += "Именинник: " +
-			oPeople[k].lastName + " " + oPeople[k].firstName + " " + oPeople[k].fathersName + "\n"
+			oPeople[k].lastName + " " + oPeople[k].firstName + (oPeople[k].fathersName ? " " + oPeople[k].fathersName : "") + "\n"
 			+ "Дата рождения: " + ((oPeople[k].birthday < 10)? ("0" + oPeople[k].birthday): (oPeople[k].birthday)) + "." +
 			((oPeople[k].birthmonth < 10)? "0" + oPeople[k].birthmonth:
 			oPeople[k].birthmonth) + "\n" +
@@ -127,10 +139,12 @@ function clickDay(){
 
 drawCalendar();
 
-for(var i = 0; i < document.querySelectorAll("td").length; i++){
-	if(document.querySelectorAll("td")[i].textContent !== ""){
-		document.querySelectorAll("td")[i].onclick = clickDay;
+oTable.onclick = function(event){
+	var target = event.target;
+	if(target.className == "non-month" || target.tagName != "TD") {
+		return;
 	}
+	clickDay(target);
 }
 
 document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()]
