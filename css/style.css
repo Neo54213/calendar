@@ -5,7 +5,7 @@
 body{
     width:30em;
     margin: 0 auto;
-    background-image: url("../imgs/htc_one_70.png");
+    background-image: url("../imgs/background-image.png");
 }
 table{
     width:30em;
@@ -31,13 +31,14 @@ table td:hover{
     background-color: aqua;
     cursor: pointer;
 }
-h1#header{
+#header{
     text-align: center;
     font: 3em Tahoma;
     margin-top: 0.3em;
     margin-bottom: 0.6em;
+    color: purple;
 }
-textarea#infoAboutPerson{
+#infoAboutPerson{
     width: 35.88em;
     height: 13em;
     margin-top: 3em;

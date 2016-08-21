@@ -79,11 +79,12 @@ function drawCalendar(){
 
 	// Getting number of last month day
 	var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32)
-																     .getDate();
+	.getDate();
 	var flag = false;
 	for(var j = 1; j <= nLastMonthDay; ){
 		for(var i = 1; i <= 7; i++){
-			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 && nFirstDay == 0) && nWeek == 1)){
+			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 &&
+				nFirstDay == 0) && nWeek == 1)){
 				flag = true;
 			}
 			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td" + (flag ? (" class='non-month'>") : (">" + j)) + "</td>";
@@ -126,9 +127,9 @@ function clickDay(){
 
 drawCalendar();
 
-for(var i = 0; i < document.getElementsByTagName("td").length; i++){
-	if(document.getElementsByTagName("td")[i].textContent !== ""){
-		document.getElementsByTagName("td")[i].onclick = clickDay;
+for(var i = 0; i < document.querySelectorAll("td").length; i++){
+	if(document.querySelectorAll("td")[i].textContent !== ""){
+		document.querySelectorAll("td")[i].onclick = clickDay;
 	}
 }
 
