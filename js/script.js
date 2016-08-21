@@ -7,7 +7,7 @@ window.onload = function(){
 var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 // Data object initializing
-var oMonthDate = new Date();
+var oMonthDate = new Date(2016, 4);
 
 // Month name array initializing
 var aMonthName = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль",
@@ -60,32 +60,39 @@ function drawTh(aData){
     oTable.appendChild(oTableTr);
 }
 
+// Getting number of first day of month function
+function getNumberOfFirstWeekDay(oMonthDate){
+	oMonthDate.setDate(1);
+	var oFirstDay = oMonthDate;
+	return oFirstDay.getDay();
+}
+
 // Calendar drawing function
 function drawCalendar(){
 	drawTh(aWeekDays);
 
 	// Getting number of first day of month
-	oMonthDate.setDate(1);
-	var oFirstDay = oMonthDate;
-	var nFirstDay = oFirstDay.getDay();
+	var nFirstDay = getNumberOfFirstWeekDay(oMonthDate);
 
 	document.getElementById("calendar").innerHTML += "\t\t<tr>\n\t\t";
 	var nWeek = 1;
+
+	// Getting number of last month day
 	var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32)
 																     .getDate();
 	var flag = false;
 	for(var j = 1; j <= nLastMonthDay; ){
 		for(var i = 1; i <= 7; i++){
-			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1)){
+			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 && nFirstDay == 0) && nWeek == 1)){
 				flag = true;
 			}
 			document.getElementsByTagName("tr")[nWeek].innerHTML += "\t\t\t<td>" + (flag ? "": j) + "</td>";
-			if( i == 7 && j < nLastMonthDay ){
-				document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
-				nWeek++;
-			}
 			if(j <= nLastMonthDay && !flag){
 				j++;
+			}
+			if( i == 7 && j <= nLastMonthDay ){
+				document.getElementById("calendar").innerHTML += "\t\t</tr>\n\t\t\t\t<tr>\n";
+				nWeek++;
 			}
 			flag = false;
 		}
@@ -97,13 +104,13 @@ function clickDay(){
 	// Clearing previous data in texarea
 	var oPersonInfo = document.getElementById("infoAboutPerson");
 	oPersonInfo.innerHTML = "";
-	
+
 	// Searching of oPeople and putting info into textarea
 	for(var k in oPeople){
 		if(oPeople[k].birthday == this.innerText && oPeople[k].birthmonth == oMonthDate.getMonth()+1){
-			oPersonInfo.innerHTML += "Именинник: " + 
+			oPersonInfo.innerHTML += "Именинник: " +
 			oPeople[k].lastName + " " + oPeople[k].firstName + " " + oPeople[k].fathersName + "\n"
-			+ "Дата рождения: " + ((oPeople[k].birthday < 10)? ("0" + oPeople[k].birthday): (oPeople[k].birthday)) + "." + 
+			+ "Дата рождения: " + ((oPeople[k].birthday < 10)? ("0" + oPeople[k].birthday): (oPeople[k].birthday)) + "." +
 			((oPeople[k].birthmonth < 10)? "0" + oPeople[k].birthmonth:
 			oPeople[k].birthmonth) + "\n" +
 			"Возраст: " + oPeople[k].age + '\n'+
