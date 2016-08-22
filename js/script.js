@@ -60,9 +60,9 @@ function drawTh(aData){
 	var oTableTr = document.createElement("tr");
 
     for (key in aData) {
-     var oTableTd = document.createElement("th");
-     oTableTd.textContent = aData[key];
-     oTableTr.appendChild(oTableTd);
+     var oTableTh = document.createElement("th");
+     oTableTh.textContent = aData[key];
+     oTableTr.appendChild(oTableTh);
     }
     oTable.appendChild(oTableTr);
 }
