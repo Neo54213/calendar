@@ -146,6 +146,7 @@ oTable.onclick = function(event){
 	}
 }
 
-document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()]
-	+ ' ' + oMonthDate.getFullYear();
+var oHeader = document.getElementById("header");
+oHeader.innerText += aMonthName[oMonthDate.getMonth()] + ' '
+	+ oMonthDate.getFullYear();
 };
