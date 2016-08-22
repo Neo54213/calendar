@@ -90,27 +90,18 @@ function drawCalendar(){
 	var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32)
 	.getDate();
 
-	// Set flag to separate non-month days from month days
-	var flag = false;
-
 	for(var j = 1; j <= nLastMonthDay; ){
 		var oTableTr = oDoc.createElement("tr");
 		for(var i = 1; i <= 7; i++){
+			var oTableTd = oDoc.createElement("td");
 			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 &&
 				nFirstDay == 0) && nWeek == 1)){
-				flag = true;
-			}
-			var oTableTd = oDoc.createElement("td");
-			if(flag){
 				oTableTd.className = "non-month";
 			}else{
 				oTableTd.textContent = j;
-			}
-			if(!flag){
 				j++;
 			}
 			oTableTr.appendChild(oTableTd);
-			flag = false;
 		}
 		oTable.appendChild(oTableTr);
 		nWeek++;
@@ -150,6 +141,5 @@ oTable.onclick = function(event){
 }
 
 var oHeader = oDoc.getElementById("header");
-oHeader.innerText += aMonthName[oMonthDate.getMonth()] + ' '
-	+ oMonthDate.getFullYear();
+oHeader.innerText += aMonthName[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
 };
