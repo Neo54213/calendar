@@ -78,7 +78,6 @@ function drawCalendar(){
 	// Getting number of first day of month
 	var nFirstDay = getNumberOfFirstWeekDay(oMonthDate);
 
-	//oTable.innerHTML += "\t\t<tr>\n\t\t";
 	var nWeek = 1;
 
 	// Getting number of last month day
@@ -128,10 +127,9 @@ function clickDay(target){
 			oPeople[k].birthmonth) + "\n" +
 			"Возраст: " + oPeople[k].age + '\n'+
 			"Город: " + oPeople[k].city + "\n\n";
+		}else{
+			oPersonInfo.innerHTML = "Именинников нет.";
 		}
-	}
-	if(oPersonInfo.innerHTML == ""){
-		oPersonInfo.innerHTML = "Именинников нет.";
 	}
 }
 
@@ -141,10 +139,11 @@ drawCalendar();
 
 oTable.onclick = function(event){
 	var target = event.target;
-	if(target.className == "non-month" || target.tagName != "TD") {
-		return;
+	if(target.className != "non-month" && target.tagName == "TD") {
+		clickDay(target);
+	}else{
+
 	}
-	clickDay(target);
 }
 
 document.getElementById("header").innerText += aMonthName[oMonthDate.getMonth()]
