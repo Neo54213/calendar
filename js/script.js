@@ -45,6 +45,9 @@ var oPeople = [
 	}
 ];
 
+// Info object initializing
+var oPersonInfo = document.getElementById("infoAboutPerson");
+
 // Table object initializing
 var oTable = document.getElementById("calendar");
 
@@ -113,10 +116,6 @@ function drawCalendar(){
 
 // TD click function
 function clickDay(target){
-	// Clearing previous data in textarea
-	var oPersonInfo = document.getElementById("infoAboutPerson");
-	oPersonInfo.textContent = "";
-
 	// Searching of oPeople and putting info into textarea
 	for(var k in oPeople){
 		if(oPeople[k].birthday == target.innerText && oPeople[k].birthmonth == oMonthDate.getMonth()+1){
@@ -138,11 +137,12 @@ function clickDay(target){
 drawCalendar();
 
 oTable.onclick = function(event){
+	// Clearing previous data in textarea
+	oPersonInfo.textContent = "";
+
 	var target = event.target;
 	if(target.className != "non-month" && target.tagName == "TD") {
 		clickDay(target);
-	}else{
-
 	}
 }
 
