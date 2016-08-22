@@ -14,6 +14,9 @@ var aMonthName = ["Январь", "Февраль", "Март", "Апрель", 
 				  "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
 				 ];
 
+// oDoc object initializing
+var oDoc = document;
+
 // People object initializing
 var oPeople = [
 	{
@@ -46,21 +49,21 @@ var oPeople = [
 ];
 
 // Info object initializing
-var oPersonInfo = document.getElementById("infoAboutPerson");
+var oPersonInfo = oDoc.getElementById("infoAboutPerson");
 
 // Table object initializing
-var oTable = document.getElementById("calendar");
+var oTable = oDoc.getElementById("calendar");
 
 //-------------------------- FUNCTION SECTION ----------------------------------
 
 
 // Th drawing function
 function drawTh(aData){
-	var oTable = document.getElementById("calendar");
-	var oTableTr = document.createElement("tr");
+	var oTable = oDoc.getElementById("calendar");
+	var oTableTr = oDoc.createElement("tr");
 
     for (key in aData) {
-     var oTableTh = document.createElement("th");
+     var oTableTh = oDoc.createElement("th");
      oTableTh.textContent = aData[key];
      oTableTr.appendChild(oTableTh);
     }
@@ -91,13 +94,13 @@ function drawCalendar(){
 	var flag = false;
 
 	for(var j = 1; j <= nLastMonthDay; ){
-		var oTableTr = document.createElement("tr");
+		var oTableTr = oDoc.createElement("tr");
 		for(var i = 1; i <= 7; i++){
 			if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 &&
 				nFirstDay == 0) && nWeek == 1)){
 				flag = true;
 			}
-			var oTableTd = document.createElement("td");
+			var oTableTd = oDoc.createElement("td");
 			if(flag){
 				oTableTd.className = "non-month";
 			}else{
@@ -146,7 +149,7 @@ oTable.onclick = function(event){
 	}
 }
 
-var oHeader = document.getElementById("header");
+var oHeader = oDoc.getElementById("header");
 oHeader.innerText += aMonthName[oMonthDate.getMonth()] + ' '
 	+ oMonthDate.getFullYear();
 };
