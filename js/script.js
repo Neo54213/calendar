@@ -1,7 +1,7 @@
 /*------------------------------begin model-----------------------------------*/
-var Model = {
-	aWeekDays: ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
-	aMonthNames:[
+function Model() {
+	var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
+	var aMonthNames = [
 		"январь",
 		"февраль",
 		"март",
@@ -14,27 +14,15 @@ var Model = {
 		"октябрь",
 		"ноябрь",
 		"декабрь"
-	],
-	oTable: document.getElementById("calendar"),
-	oMonthDate: new Date(),
-	nFirstDay: -1,
-	getNumberOfFirstWeekDay: function (){
-		this.oMonthDate.setDate(1);
-		var oFirstDay = this.oMonthDate;
-		this.nFirstDay = oFirstDay.getDay();
-	},
-	nLastMonthDay: -1,
-	getNumberOfLastMonthDay: function(){
-		this.nLastMonthDay = 32 - new Date(Model.oMonthDate.getYear(), Model.oMonthDate.getMonth(), 32)
-			.getDate();
-	},
-	oPeople: [
+	];
+    var oMonthDate = new Date();
+    var aPeople = [
 		{
 			lastName: "Курчатов",
 			firstName: "Борис",
 			fathersName: "Васильевич",
 			birthday: 3,
-			birthmonth: 8,
+			birthmonth: 9,
 			age: 111,
 			city: "Симский завод"
 		},
@@ -43,7 +31,7 @@ var Model = {
 			firstName: "Альфред",
 			fathersName: "",
 			birthday: 13,
-			birthmonth: 8,
+			birthmonth: 9,
 			age: 117,
 			city: "Лондон"
 		},
@@ -52,12 +40,42 @@ var Model = {
 			firstName: "Иван",
 			fathersName: "Михайлович",
 			birthday: 13,
-			birthmonth: 8,
+			birthmonth: 9,
 			age: 187,
 			city: "Лондон"
 		}
-	],
-	oPersonInfo: document.querySelector("#infoAboutPerson")
+	];
+    
+	return {
+        getPersonByBirthday: function(nDay){
+            var iItemIdx = -1;
+
+            var aData = this.getPeople();
+
+            // iterate through all data and find the item which meets the requirements, in our case, the
+            // requirements is a proper "birthday" attribute
+            for (var i = 0; i < aData.length; i++) {
+                if (aData[i]["birthday"] === nDay) {
+                    iItemIdx = i;
+                    break;
+                }
+            }
+
+            return iItemIdx !== -1 ? aData[i] : null;
+        },
+		getWeekDays: function(){
+			return aWeekDays;
+		},
+        getPeople: function() {
+            return aPeople;
+        },
+        getMonthNames: function(){
+            return aMonthNames;
+        },
+        getMonthDate: function(){
+            return oMonthDate;
+        }
+	}
 };
 
 /*------------------------------end model-------------------------------------*/
@@ -65,105 +83,132 @@ var Model = {
 
 /*------------------------------begin view------------------------------------*/
 
-	var View = {
-		// Calendar drawing function
-		drawCalendar: function (){
-			// Th drawing function
-			function drawTh(aData) {
-				var oTable = document.getElementById("calendar");
-				var oTableTr = document.createElement("tr");
+	function View() {        
+        var oTable = document.getElementById("calendar");
+        var oHeader = document.querySelector("h1");	
+        var oPersonInfo = document.querySelector("#infoAboutPerson");
+        
+		return {
+			attachTableClick: function(fnCallback) {
+				oTable.addEventListener("click", fnCallback);
+			},
 
-				for (key in aData) {
-					var oTableTh = document.createElement("th");
-					oTableTh.textContent = aData[key];
-					oTableTr.appendChild(oTableTh);
+            // Clear previous data in textarea
+			clearInfoSide: function(){
+				oPersonInfo.textContent = "";
+			},
+            putInfo: function(oPerson){
+				if(oPerson === null){
+					oPersonInfo.textContent = "Именинников нет.";
+					return;
 				}
-				oTable.appendChild(oTableTr);
-			}
+				oPersonInfo.textContent += "Именинник: " +
+					oPerson.lastName + " " + oPerson.firstName + (oPerson.fathersName ? " " + oPerson.fathersName : "") + "\n"
+					+ "Дата рождения: " + ((oPerson.birthday < 10)? ("0" + oPerson.birthday): (oPerson.birthday)) + "." +
+					((oPerson.birthmonth < 10)? "0" + oPerson.birthmonth:
+						oPerson.birthmonth) + "\n" +
+					"Возраст: " + oPerson.age + '\n'+
+					"Город: " + oPerson.city;
+            },
 
-			// Getting number of first day of month function
+			/**
+			 * Render table
+			 * @param {Array} aData Source data
+			 */
+			renderTable: function(aData, oDate, aMonthNames) {
+                var oTableTr = document.createElement("tr");
 
-			drawTh(Model.aWeekDays);
+                for (key in aData) {
+                    var oTableTh = document.createElement("th");
+                    oTableTh.textContent = aData[key];
+                    oTableTr.appendChild(oTableTh);
+                }
+                oTable.appendChild(oTableTr);
+                  
+                var nWeek = 1;
+                var oMonthDate = oDate;
+                var nLastMonthDay = 32 - new Date(oMonthDate.getYear(), oMonthDate.getMonth(), 32).getDate();
+                oMonthDate.setDate(1);
+                var oFirstDay = oMonthDate;
+                var nFirstDay = oFirstDay.getDay();
 
-			var nWeek = 1;
-
-			for(var j = 1; j <= Model.nLastMonthDay; ){
-				var oTableTr = document.createElement("tr");
-				for(var i = 1; i <= 7; i++){
-					var oTableTd = document.createElement("td");
-					if(j > Model.nLastMonthDay || (i < Model.nFirstDay && nWeek == 1) || ((i < 7 &&
-						Model.nFirstDay == 0) && nWeek == 1)){
-						oTableTd.className = "non-month";
-					}else{
-						oTableTd.textContent = j;
-						j++;
-					}
-					oTableTr.appendChild(oTableTd);
-				}
-				Model.oTable.appendChild(oTableTr);
-				nWeek++;
-			}
-		},
-		tableClick: function(event) {
-			// Clearing previous data in textarea
-			Model.oPersonInfo.textContent = "";
-
-			var target = event.target;
-			if (target.tagName == "TD") {
-				View.clickDay(target);
-			}
-		},
-		clickDay: function(target){
-			// Searching of oPeople and putting info into textarea
-			for(var k in Model.oPeople){
-				if(Model.oPeople[k].birthday == target.innerText && Model.oPeople[k].birthmonth == Model.oMonthDate.getMonth()+1){
-					Model.oPersonInfo.innerHTML += "Именинник: " +
-						Model.oPeople[k].lastName + " " + Model.oPeople[k].firstName + (Model.oPeople[k].fathersName ? " " + Model.oPeople[k].fathersName : "") + "\n"
-						+ "Дата рождения: " + ((Model.oPeople[k].birthday < 10)? ("0" + Model.oPeople[k].birthday): (Model.oPeople[k].birthday)) + "." +
-						((Model.oPeople[k].birthmonth < 10)? "0" + Model.oPeople[k].birthmonth:
-							Model.oPeople[k].birthmonth) + "\n" +
-						"Возраст: " + Model.oPeople[k].age + '\n'+
-						"Город: " + Model.oPeople[k].city + "\n\n";
-				}else{
-					Model.oPersonInfo.textContent = "Именинников нет.";
-				}
-			}
+                for(var j = 1; j <= nLastMonthDay; ){
+                    var oTableTr = document.createElement("tr");
+                    for(var i = 1; i <= 7; i++){
+                        var oTableTd = document.createElement("td");
+                        if(j > nLastMonthDay || (i < nFirstDay && nWeek == 1) || ((i < 7 &&
+                            nFirstDay == 0) && nWeek == 1)){
+                            oTableTd.className = "non-month";
+                        }else{
+                            oTableTd.textContent = j;
+                            j++;
+                        }
+                        oTableTr.appendChild(oTableTd);
+                    }
+                    oTable.appendChild(oTableTr);
+                    nWeek++;
+                }
+                oHeader.textContent = aMonthNames[oMonthDate.getMonth()] + ' ' + oMonthDate.getFullYear();
+			},
 		}
 	};
 
-/*------------------------------end vied--------------------------------------*/
+/*------------------------------end view--------------------------------------*/
 
 
 /*------------------------------begin controller------------------------------*/
 
-	var Controller = {
-		handleClick: function(event){
-			View.tableClick(event);
+	function Controller() {
+		return {
+			initialize: function () {
+				this.oView = new View();
+				this.oModel = new Model();
+
+				this.oView.renderTable(this.oModel.getWeekDays(), this.oModel.getMonthDate(), this.oModel.getMonthNames());
+
+				this.oView.attachTableClick(this.onTableClick.bind(this));
+			},
+			onTableClick: function (oEvent) {
+                this.oView.clearInfoSide();
+
+				
+				var oTarget		= oEvent.target;
+				var sNodeName	= oTarget.nodeName;
+				if (sNodeName !== "TD") {
+					return;
+				}
+                
+                // name of the selected menu item
+				var nDay				= oTarget.textContent;
+
+				// the object representation of the selected menu item
+				var oPerson	= this.oModel.getPersonByBirthday(nDay);
+
+				this.oView.putInfo(oPerson);
+                
+			}
 		}
-	};
+	}
 
 /*------------------------------end controller--------------------------------*/
 
+var oController = new Controller();
+oController.initialize();
+
 /*------------------------------anonymous initializing function---------------*/
+
 	(function() {
 		var app = {
 			init: function(){
-				this.main();
-				this.event();
 			},
 
 			main: function(){
-				Model.getNumberOfFirstWeekDay();
-				Model.getNumberOfLastMonthDay();
-				View.drawCalendar();
-				var oHeader = document.querySelector("h1");
-				oHeader.textContent = Model.aMonthNames[Model.oMonthDate.getMonth()] + ' ' + Model.oMonthDate.getFullYear();
+
 			},
 
 			event: function(){
-				Model.oTable.onclick = Controller.handleClick;
 			}
 		};
-		app.init();
 	}());
 /*------------------------------anonymous initializing function---------------*/
+
