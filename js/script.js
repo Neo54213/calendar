@@ -2,18 +2,18 @@
 function Model() {
 	var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 	var aMonthNames = [
-		"январь",
-		"февраль",
-		"март",
-		"апрель",
-		"май",
-		"июнь",
-		"июль",
-		"август",
-		"сентябрь",
-		"октябрь",
-		"ноябрь",
-		"декабрь"
+		"Январь",
+		"Февраль",
+		"Март",
+		"Апрель",
+		"Май",
+		"Июнь",
+		"Июль",
+		"Август",
+		"Сентябрь",
+		"Октябрь",
+		"Ноябрь",
+		"Декабрь"
 	];
     var oMonthDate = new Date();
     var aPeople = [
@@ -47,21 +47,21 @@ function Model() {
 	];
     
 	return {
-        getPersonByBirthday: function(nDay){
-            var iItemIdx = -1;
+        getPersonsByBirthday: function(nDay){
+            var aPersons = [];
 
             var aData = this.getPeople();
 
             // iterate through all data and find the item which meets the requirements, in our case, the
             // requirements is a proper "birthday" attribute
             for (var i = 0; i < aData.length; i++) {
-                if (aData[i]["birthday"] === nDay) {
-                    iItemIdx = i;
-                    break;
+                if (aData[i].birthday == nDay) {
+                    aPersons.push(aData[i]);
                 }
             }
+            
 
-            return iItemIdx !== -1 ? aData[i] : null;
+            return aPersons[0] !== undefined ? aPersons : null;
         },
 		getWeekDays: function(){
 			return aWeekDays;
@@ -97,18 +97,20 @@ function Model() {
 			clearInfoSide: function(){
 				oPersonInfo.textContent = "";
 			},
-            putInfo: function(oPerson){
-				if(oPerson === null){
+            putInfo: function(aPersons){
+				if(aPersons === null){
 					oPersonInfo.textContent = "Именинников нет.";
 					return;
 				}
-				oPersonInfo.textContent += "Именинник: " +
-					oPerson.lastName + " " + oPerson.firstName + (oPerson.fathersName ? " " + oPerson.fathersName : "") + "\n"
-					+ "Дата рождения: " + ((oPerson.birthday < 10)? ("0" + oPerson.birthday): (oPerson.birthday)) + "." +
-					((oPerson.birthmonth < 10)? "0" + oPerson.birthmonth:
-						oPerson.birthmonth) + "\n" +
-					"Возраст: " + oPerson.age + '\n'+
-					"Город: " + oPerson.city;
+                for(var i = 0; i < aPersons.length; i++){
+                    oPersonInfo.textContent += "Именинник: " +
+					aPersons[i].lastName + " " + aPersons[i].firstName + (aPersons[i].fathersName ? " " + aPersons[i].fathersName : "") + "\n"
+					+ "Дата рождения: " + ((aPersons[i].birthday < 10)? ("0" + aPersons[i].birthday): (aPersons[i].birthday)) + "." +
+					((aPersons[i].birthmonth < 10)? "0" + aPersons[i].birthmonth:
+						aPersons[i].birthmonth) + "\n" +
+					"Возраст: " + aPersons[i].age + '\n'+
+					"Город: " + aPersons[i].city + '\n' + '\n';
+                }
             },
 
 			/**
@@ -182,9 +184,9 @@ function Model() {
 				var nDay				= oTarget.textContent;
 
 				// the object representation of the selected menu item
-				var oPerson	= this.oModel.getPersonByBirthday(nDay);
+				var aPersons	= this.oModel.getPersonsByBirthday(nDay);
 
-				this.oView.putInfo(oPerson);
+				this.oView.putInfo(aPersons);
                 
 			}
 		}
@@ -194,21 +196,3 @@ function Model() {
 
 var oController = new Controller();
 oController.initialize();
-
-/*------------------------------anonymous initializing function---------------*/
-
-	(function() {
-		var app = {
-			init: function(){
-			},
-
-			main: function(){
-
-			},
-
-			event: function(){
-			}
-		};
-	}());
-/*------------------------------anonymous initializing function---------------*/
-
