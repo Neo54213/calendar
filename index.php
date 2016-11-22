@@ -1,5 +1,6 @@
 <?php
-require_once 'base.inc.php';
+require_once 'inc/db_connect.inc.php';
+require_once 'inc/base.inc.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -14,7 +15,10 @@ require_once 'base.inc.php';
 
 	</table>
 	<div>
-		<textarea name="infoAboutPerson" id="infoAboutPerson"></textarea>
+		<div name="infoAboutPerson" id="infoAboutPerson"><?php
+				require_once 'inc/people_info.inc.php';
+			?>
+		</div>
 	</div>
 	<!--input type="button" value='Добавить день'/><br/>
 	<input type="button" value='Удалить день'/-->
