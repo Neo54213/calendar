@@ -1,56 +1,56 @@
+"use strict";
 /*------------------------------begin model-----------------------------------*/
 function Model() {
-	var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-	var aMonthNames = [
-		"Январь",
-		"Февраль",
-		"Март",
-		"Апрель",
-		"Май",
-		"Июнь",
-		"Июль",
-		"Август",
-		"Сентябрь",
-		"Октябрь",
-		"Ноябрь",
-		"Декабрь"
-	];
-    var oMonthDate = new Date();
-    var aPeople = [
-		{
-			lastName: "Курчатов",
-			firstName: "Борис",
-			fathersName: "Васильевич",
-			birthday: 3,
-			birthmonth: 9,
-			age: 111,
-			city: "Симский завод"
-		},
-		{
-			lastName: "Хичкок",
-			firstName: "Альфред",
-			fathersName: "",
-			birthday: 13,
-			birthmonth: 9,
-			age: 117,
-			city: "Лондон"
-		},
-		{
-			lastName: "Сеченов",
-			firstName: "Иван",
-			fathersName: "Михайлович",
-			birthday: 13,
-			birthmonth: 9,
-			age: 187,
-			city: "Лондон"
-		}
-	];
+	var aWeekDays = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"],
+        aMonthNames = [
+            "Январь",
+            "Февраль",
+            "Март",
+            "Апрель",
+            "Май",
+            "Июнь",
+            "Июль",
+            "Август",
+            "Сентябрь",
+            "Октябрь",
+            "Ноябрь",
+            "Декабрь"
+        ],
+        oMonthDate = new Date(),
+        aPeople = [
+            {
+                lastName: "Курчатов",
+                firstName: "Борис",
+                fathersName: "Васильевич",
+                birthday: 3,
+                birthmonth: 9,
+                age: 111,
+                city: "Симский завод"
+            },
+            {
+                lastName: "Хичкок",
+                firstName: "Альфред",
+                fathersName: "",
+                birthday: 13,
+                birthmonth: 9,
+                age: 117,
+                city: "Лондон"
+            },
+            {
+                lastName: "Сеченов",
+                firstName: "Иван",
+                fathersName: "Михайлович",
+                birthday: 13,
+                birthmonth: 9,
+                age: 187,
+                city: "Лондон"
+            }
+        ];
     
 	return {
-        getPersonsByBirthday: function(nDay){
-            var aPersons = [];
-
-            var aData = this.getPeople();
+        getPersonsByBirthday: function (nDay) {
+            var aPersons = [],
+                aData = this.getPeople();
 
             // iterate through all data and find the item which meets the requirements, in our case, the
             // requirements is a proper "birthday" attribute
@@ -58,8 +58,7 @@ function Model() {
                 if (aData[i].birthday == nDay) {
                     aPersons.push(aData[i]);
                 }
-            }
-            
+            }            
 
             return aPersons[0] !== undefined ? aPersons : null;
         },
@@ -84,7 +83,7 @@ function Model() {
 /*------------------------------begin view------------------------------------*/
 
 	function View() {        
-        var oTable = document.getElementById("calendar");
+        var oTable = document.querySelector("#calendar");
         var oHeader = document.querySelector("h1");	
         var oPersonInfo = document.querySelector("#infoAboutPerson");
         
@@ -120,7 +119,7 @@ function Model() {
 			renderTable: function(aData, oDate, aMonthNames) {
                 var oTableTr = document.createElement("tr");
 
-                for (key in aData) {
+                for (var key in aData) {
                     var oTableTh = document.createElement("th");
                     oTableTh.textContent = aData[key];
                     oTableTr.appendChild(oTableTh);
@@ -182,11 +181,15 @@ function Model() {
                 
                 // name of the selected menu item
 				var nDay				= oTarget.textContent;
-
-				// the object representation of the selected menu item
-				var aPersons	= this.oModel.getPersonsByBirthday(nDay);
-
-				this.oView.putInfo(aPersons);
+                
+                $.ajax({
+                    type: "POST",
+                    url: "inc/people_info.php",
+                    data: "birthday="+nDay,
+                    succsess: function(data){
+                        $('.infoAboutPerson').html(data);
+                    }
+                });
                 
 			}
 		}
