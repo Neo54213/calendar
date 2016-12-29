@@ -39,9 +39,10 @@ h1{
     color: black;
 }
 #infoAboutPerson{
-    width: 35.88em;
+    width: 30em;
     height: 13em;
     margin-top: 3em;
+    background-color: white;
 }
 .non-month{
     background-color: grey;

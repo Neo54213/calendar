@@ -16,58 +16,30 @@ function Model() {
             "Ноябрь",
             "Декабрь"
         ],
-        oMonthDate = new Date(),
-        aPeople = [
-            {
-                lastName: "Курчатов",
-                firstName: "Борис",
-                fathersName: "Васильевич",
-                birthday: 3,
-                birthmonth: 9,
-                age: 111,
-                city: "Симский завод"
-            },
-            {
-                lastName: "Хичкок",
-                firstName: "Альфред",
-                fathersName: "",
-                birthday: 13,
-                birthmonth: 9,
-                age: 117,
-                city: "Лондон"
-            },
-            {
-                lastName: "Сеченов",
-                firstName: "Иван",
-                fathersName: "Михайлович",
-                birthday: 13,
-                birthmonth: 9,
-                age: 187,
-                city: "Лондон"
-            }
-        ];
+        oMonthDate = new Date();
     
 	return {
-        getPersonsByBirthday: function (nDay) {
-            var aPersons = [],
-                aData = this.getPeople();
-
-            // iterate through all data and find the item which meets the requirements, in our case, the
-            // requirements is a proper "birthday" attribute
-            for (var i = 0; i < aData.length; i++) {
-                if (aData[i].birthday == nDay) {
-                    aPersons.push(aData[i]);
+        getPeopleByBirthday: function (nDay) {
+            var aPersons;
+            $.ajax({
+                type: "POST",
+                url: "index.php",
+                async: false,
+                data: "birthday="+nDay,
+                success: function(data){
+                    try{
+                        aPersons = JSON.parse(data);
+                    }catch(e){
+                        aPersons = null;
+                    }
                 }
-            }            
+            });
 
-            return aPersons[0] !== undefined ? aPersons : null;
+            return aPersons;
         },
 		getWeekDays: function(){
 			return aWeekDays;
 		},
-        getPeople: function() {
-            return aPeople;
-        },
         getMonthNames: function(){
             return aMonthNames;
         },
@@ -96,20 +68,18 @@ function Model() {
 			clearInfoSide: function(){
 				oPersonInfo.textContent = "";
 			},
-            putInfo: function(aPersons){
+            putInfo: function(aPersons, nDay){
 				if(aPersons === null){
 					oPersonInfo.textContent = "Именинников нет.";
 					return;
 				}
-                for(var i = 0; i < aPersons.length; i++){
-                    oPersonInfo.textContent += "Именинник: " +
-					aPersons[i].lastName + " " + aPersons[i].firstName + (aPersons[i].fathersName ? " " + aPersons[i].fathersName : "") + "\n"
-					+ "Дата рождения: " + ((aPersons[i].birthday < 10)? ("0" + aPersons[i].birthday): (aPersons[i].birthday)) + "." +
-					((aPersons[i].birthmonth < 10)? "0" + aPersons[i].birthmonth:
-						aPersons[i].birthmonth) + "\n" +
-					"Возраст: " + aPersons[i].age + '\n'+
-					"Город: " + aPersons[i].city + '\n' + '\n';
-                }
+                oPersonInfo.innerHTML = nDay+" числа свой день рождения празднуют: <br/>";
+                aPersons.forEach(function(item, i, arr){
+                    var fathersName = item.fathers_name ? " " + item.fathers_name : '';
+                    $('#infoAboutPerson').html($('#infoAboutPerson').html() + item.last_name + " " + item.first_name +
+                        fathersName + '. Исполняется ' + item.age + ' лет. Поздравляем!  <br/>'
+                    );
+                });
             },
 
 			/**
@@ -180,17 +150,9 @@ function Model() {
 				}
                 
                 // name of the selected menu item
-				var nDay				= oTarget.textContent;
-                
-                $.ajax({
-                    type: "POST",
-                    url: "inc/people_info.php",
-                    data: "birthday="+nDay,
-                    succsess: function(data){
-                        $('.infoAboutPerson').html(data);
-                    }
-                });
-                
+				var nDay = oTarget.textContent;
+                var aPeople = this.oModel.getPeopleByBirthday(nDay);
+                this.oView.putInfo(aPeople, nDay);
 			}
 		}
 	}

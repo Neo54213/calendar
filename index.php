@@ -1,6 +1,6 @@
 <?php
-require_once 'inc/db_connect.inc.php';
-require_once 'inc/base.inc.php';
+require_once 'inc/db_connect.php';
+require_once 'inc/base.php';
 ?>
 <!DOCTYPE html>
 <html>
