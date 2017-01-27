@@ -111,7 +111,7 @@ function Model() {
                             nFirstDay == 0) && nWeek == 1)){
                             oTableTd.className = "non-month";
                         }else{
-                            oTableTd.textContent = j;
+                            oTableTd.textContent = j; 
                             j++;
                         }
                         oTableTr.appendChild(oTableTd);

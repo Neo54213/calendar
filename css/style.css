@@ -1,7 +1,7 @@
 table{
     width:30em;
     border-collapse: collapse;
-    border: 1px solid #333;
+    border: 1px solid #ccc;
     background-color: white;
 }
 
@@ -13,8 +13,8 @@ th{
 }
 
 td{
-    border-bottom: 1px dashed #333;
-    border-right: 1px dashed #333;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
     font: 1.25em Verdana;
     width: 2.25em;
     text-align: right;
@@ -46,4 +46,8 @@ margin: 40px 0;
 
 #calendar th{
     text-align: center;
+}
+
+#not-empty{
+    background-color: red;
 }
