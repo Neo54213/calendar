@@ -1,18 +1,10 @@
-*{
-    margin:0;
-    padding:0;
-}
-body{
-    width:30em;
-    margin: 0 auto;
-    background-image: url("../img/background-image.png");
-}
 table{
     width:30em;
     border-collapse: collapse;
     border: 1px solid black;
     background-color: white;
 }
+
 th{
     background-color: darkgray;
     height: 1.3em;
@@ -46,4 +38,7 @@ h1{
 }
 .non-month{
     background-color: grey;
+}
+.head-title{
+margin: 40px 0;
 }
