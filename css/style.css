@@ -1,18 +1,20 @@
 table{
     width:30em;
     border-collapse: collapse;
-    border: 1px solid black;
+    border: 1px solid #333;
     background-color: white;
 }
 
 th{
-    background-color: darkgray;
-    height: 1.3em;
-    border-right: 1px dashed black;
+    background-color: #333;
+    color: white;
+    height: 2em;
+    text-align: right;
 }
+
 td{
-    border-bottom: 1px dashed black;
-    border-right: 1px dashed black;
+    border-bottom: 1px dashed #333;
+    border-right: 1px dashed #333;
     font: 1.25em Verdana;
     width: 2.25em;
     text-align: right;
@@ -20,7 +22,7 @@ td{
     padding-right: 0.4em;
 }
 table td:hover{
-    background-color: aqua;
+    background-color: #BFE3F9;
     cursor: pointer;
 }
 h1{
@@ -28,17 +30,20 @@ h1{
     font: 3em Tahoma;
     margin-top: 0.3em;
     margin-bottom: 0.6em;
-    color: black;
+    color: #333;
 }
 #infoAboutPerson{
-    width: 30em;
-    height: 13em;
-    margin-top: 3em;
-    background-color: white;
+    width: 100%;
+    height: 100%;
+    background-color: #EEE;
 }
 .non-month{
-    background-color: grey;
+    background-color: #EEE;
 }
 .head-title{
 margin: 40px 0;
+}
+
+#calendar th{
+    text-align: center;
 }
