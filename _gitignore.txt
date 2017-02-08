@@ -1,0 +1,4 @@
+Fix-1.1.docx
+/.idea
+Thumbs.db
+/inc/db_connect.php
